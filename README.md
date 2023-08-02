@@ -34,4 +34,4 @@
   6. Mongodb
   7. Node.js / Express
 
-[Ссылка на сайт](https://api.a-ryabcev.nomoredomains.xyz)
+[Ссылка на сайт](https://api.a-ryabcev-films.nomoreparties.co)
