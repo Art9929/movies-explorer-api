@@ -1,37 +1,26 @@
 const router = require('express').Router();
-const {
-  NotFound, // 404
-} = require('../errors/index');
+const { NotFound } = require('../errors/index');
+const userRoutes = require('./users');
+const moviesRoutes = require('./movies');
+
 const auth = require('../middlewares/auth');
+const celebrates = require('../middlewares/celebrates');
 
 const {
   login,
   createUser,
   logOut,
-  getUser,
-  updateProfileUser,
 } = require('../controllers/users');
 
 const {
-  getMovies,
-  createMovie,
-  deleteMovieById,
-} = require('../controllers/movies');
+  NOT_FOUND_PAGE,
+} = require('../util/constants');
 
-const celebrates = require('../middlewares/celebrates');
-
-router.get('/', (req, res) => res.send({ message: 'Главная' }));
+router.use('/users', auth, userRoutes);
+router.use('/movies', auth, moviesRoutes);
 router.post('/signup', celebrates.createUser, createUser);
 router.post('/signin', celebrates.loginUser, login);
-router.get('/signout', logOut);
-
-router.get('/users/me', auth, getUser);
-router.patch('/users/me', auth, celebrates.updateUser, updateProfileUser);
-
-router.get('/movies', auth, getMovies);
-router.post('/movies', auth, celebrates.createMovie, createMovie);
-router.delete('/movies/:_id', auth, celebrates.createMovie, deleteMovieById);
-
-router.use('*', (req, res, next) => next(new NotFound('Такой страницы не существует!')));
+router.get('/signout', auth, logOut);
+router.use('*', auth, (req, res, next) => next(new NotFound(NOT_FOUND_PAGE)));
 
 module.exports = router;

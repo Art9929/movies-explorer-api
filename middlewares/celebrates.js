@@ -39,9 +39,9 @@ const createMovie = celebrate({
   }),
 });
 
-const getCard = celebrate({
+const getMovieId = celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().length(24).hex(),
+    _id: Joi.string().required().length(24).hex(),
   }),
 });
 
@@ -50,5 +50,5 @@ module.exports = {
   createUser,
   updateUser,
   createMovie,
-  getCard,
+  getMovieId,
 };
